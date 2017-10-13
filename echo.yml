@@ -1,0 +1,9 @@
+provider:
+  name: faas
+  gateway: http://localhost:8080
+
+functions:
+  echo:
+    lang: Dockerfile
+    handler: ./echo
+    image: kenfdev/echo

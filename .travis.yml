@@ -1,0 +1,32 @@
+sudo: required
+
+services:
+  - docker
+
+language: node_js
+node_js:
+  - "8"
+
+cache: yarn
+
+before_install:
+  # installing newer docker
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+  # installing the faas-cli
+  - curl -sSL https://cli.openfaas.com | sudo sh
+  - docker swarm init
+  - ./ci-setup.sh
+
+script:
+  - yarn test
+
+after_script:
+  - docker swarm leave -f
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    faas-cli push -f echo.yml
+    fi
+  # you can deploy to a dev or prod (whatever) environment at this stage
