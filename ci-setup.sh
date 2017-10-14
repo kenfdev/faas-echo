@@ -37,12 +37,12 @@ wait_for_service_to_start() {
 ./deploy_stack.sh
 
 # build the functions (assuming 4 cores)
-faas-cli build --parallel 4 -f echo.yml
+faas-cli build --parallel 4 -f stack.yml
 
 # we can't deploy unless the gateway is ready so wait
 wait_for_service_to_start func_gateway
 # and then deploy
-faas-cli deploy -f echo.yml
+faas-cli deploy -f stack.yml
 
 # wait for functions to become ready for testing
 wait_for_service_to_start echo
