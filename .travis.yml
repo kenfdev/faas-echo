@@ -27,6 +27,6 @@ after_script:
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    faas-cli push -f echo.yml
+    faas-cli push -f echo.yml;
     fi
   # you can deploy to a dev or prod (whatever) environment at this stage
